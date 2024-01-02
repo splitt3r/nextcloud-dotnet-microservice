@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<info>
+	<id>dotnet_microservice</id>
+	<name>.NET Microservice</name>
+	<summary>.NET Microservice Example</summary>
+	<description>
+	<![CDATA[Example of a Nextcloud app running as a .NET Microservice]]>
+	</description>
+	<version>1.0.0</version>
+	<licence>MIT</licence>
+	<author mail="splitt3r@users.noreply.github.com" homepage="https://github.com/splitt3r">splitt3r</author>
+	<namespace>DotNetMicroservice</namespace>
+	<category>tools</category>
+	<website>https://github.com/splitt3r/nextcloud-dotnet-microservice</website>
+	<bugs>https://github.com/splitt3r/nextcloud-dotnet-microservice/issues</bugs>
+	<repository type="git">https://github.com/splitt3r/nextcloud-dotnet-microservice</repository>
+	<dependencies>
+		<nextcloud min-version="27" max-version="29"/>
+	</dependencies>
+	<external-app>
+		<docker-install>
+			<registry>ghcr.io</registry>
+			<image>splitt3r/nextcloud-dotnet-microservice</image>
+			<image-tag>latest</image-tag>
+		</docker-install>
+		<scopes>
+			<required>
+				<value>FILES</value>
+			</required>
+			<optional>
+			</optional>
+		</scopes>
+		<protocol>http</protocol>
+		<system>false</system>
+	</external-app>
+</info>
