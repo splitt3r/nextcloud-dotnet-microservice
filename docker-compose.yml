@@ -18,8 +18,7 @@ services:
     build: .
     container_name: dotnet-microservice
     environment:
-      NextcloudUrl: http://nextcloud
-      NextcloudSecret: 12345
+      - ASPNETCORE_ENVIRONMENT: Production
     ports:
       - 9080:8080
     networks:

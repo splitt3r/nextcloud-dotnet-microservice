@@ -23,7 +23,7 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", (HttpRequest request) => {
+app.MapGet("/weatherforecast", () => {
     var forecast =  Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
@@ -47,7 +47,8 @@ app.MapPost("/init", ([FromServices] ILogger<Program> logger) => {
 });
 
 app.MapPut("/enabled", async ([FromQuery(Name = "enabled")] int enabled, HttpRequest request, [FromServices] IConfiguration configuration, [FromServices] ILogger<Program> logger) => {
-    var predefinedSecret = configuration.GetValue<string>("NextcloudSecret");
+    var configSection = configuration.GetSection("Nextcloud");
+    var predefinedSecret = configSection.GetValue<string>("Secret");
     logger.LogInformation("Secret from setting: {secret}", predefinedSecret);
 
     var encodedAuth = request.Headers?["AUTHORIZATION-APP-API"].ToString() ?? throw new ArgumentException("Nextcloud header missing");
@@ -61,7 +62,7 @@ app.MapPut("/enabled", async ([FromQuery(Name = "enabled")] int enabled, HttpReq
         return Results.Json(new { error = "The given secret is incorrect." }, statusCode: 500);
     }
 
-    var baseUrl = $"{configuration.GetValue<string>("NextcloudUrl")}/ocs/v1.php/apps/app_api/api/v1";
+    var baseUrl = $"{configSection.GetValue<string>("Url")}/ocs/v1.php/apps/app_api/api/v1";
     var headers = new List<KeyValuePair<string, string>>
     {
         new("OCS-APIRequest", "true"),
