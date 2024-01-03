@@ -8,8 +8,6 @@
 
 - `docker exec -it --user www-data nextcloud php occ app:install app_api`
 
-- On Windows you need to run: `docker exec -it nextcloud chmod 777 /var/run/docker.sock`
-
 - Now you need to create the manual_install daemon via UI (e. g. http://localhost:8080/settings/admin/app_api)
 
 - Set secret in `docker-compose.yml` in `NextcloudSecret` and use the same for the next cmd

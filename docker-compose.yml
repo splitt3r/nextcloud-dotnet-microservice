@@ -11,9 +11,6 @@ services:
       NEXTCLOUD_TRUSTED_DOMAINS: nextcloud
     ports:
       - 8080:80
-    volumes:
-      # Windows notation: https://nagachiang.github.io/docker-bind-to-docker-socket-on-windows-host-from-linux-containers/
-      - //var/run/docker.sock:/var/run/docker.sock
     networks:
       - nextcloud
 

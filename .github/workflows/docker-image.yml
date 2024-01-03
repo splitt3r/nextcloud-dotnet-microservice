@@ -1,11 +1,9 @@
-name: Deploy Images to GitHub Container Registry
+name: Deploy image to GitHub Container Registry
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-
 jobs:
   push-image:
     runs-on: ubuntu-latest
@@ -20,7 +18,7 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: 'Build Inventory Image'
+      - name: 'Build Image'
         run: |
           docker build . --tag ghcr.io/splitt3r/nextcloud-dotnet-microservice:latest
           docker push ghcr.io/splitt3r/nextcloud-dotnet-microservice:latest
