@@ -10,7 +10,7 @@
 
 - Now you need to create the manual_install daemon via UI (e. g. http://localhost:8080/settings/admin/app_api)
 
-- Set secret in `docker-compose.yml` in `NextcloudSecret` and use the same for the next cmd
+- Set the share secret in the `docker-compose.yml` file via `Nextcloud__Secret` env var and use the same for the next cmd
 
 ### Register the app via local daemon
 
