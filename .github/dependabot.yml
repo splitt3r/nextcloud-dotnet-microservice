@@ -17,7 +17,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: 'npm'
-    directory: '/src/NextcloudMicroservice.Client'
+  - package-ecosystem: "npm"
+    directory: "/src/NextcloudMicroservice.Client"
     schedule:
-      interval: 'weekly'
+      interval: "weekly"

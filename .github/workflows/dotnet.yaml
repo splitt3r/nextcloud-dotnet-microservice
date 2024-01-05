@@ -1,0 +1,20 @@
+name: .NET CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+ 
+    - name: dotnet build
+      run: dotnet build NextcloudMicroservice.sln -c Release
+
+    - name: dotnet test
+      run: dotnet test NextcloudMicroservice.sln -c Release --no-build
