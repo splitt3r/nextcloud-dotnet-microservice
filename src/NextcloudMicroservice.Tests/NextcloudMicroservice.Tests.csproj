@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NextcloudMicroservice.Api\NextcloudMicroservice.Api.csproj" />
+    <ProjectReference Include="..\NextcloudMicroservice.Server\NextcloudMicroservice.Server.csproj" />
   </ItemGroup>
 
 </Project>
