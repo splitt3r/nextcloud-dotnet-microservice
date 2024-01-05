@@ -8,10 +8,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
  
     - name: dotnet build
       run: dotnet build NextcloudMicroservice.sln -c Release
