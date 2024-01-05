@@ -1,7 +1,9 @@
 using System.Text;
 using System.Text.Json;
 
-class NextcloudClient : IDisposable
+namespace NextcloudMicroservice.Server.Services;
+
+public class NextcloudClient : IDisposable
 {
     private string _baseUrl;
     private HttpClient _httpClient;

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextcloudMicroservice.Server", "src\NextcloudMicroservice.Server\NextcloudMicroservice.Server.csproj", "{424455A6-3A68-4EB2-A1BE-38F7205FF82D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9CD021A-726A-443C-BCC0-EC28413BB0F2}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "NextcloudMicroservice.Client", "src\NextcloudMicroservice.Client\NextcloudMicroservice.Client.esproj", "{944932C1-3F11-4141-8445-D1E7B18FDD63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NextcloudMicroservice.Server", "src\NextcloudMicroservice.Server\NextcloudMicroservice.Server.csproj", "{424455A6-3A68-4EB2-A1BE-38F7205FF82D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextcloudMicroservice.Tests", "src\NextcloudMicroservice.Tests\NextcloudMicroservice.Tests.csproj", "{A3B29E47-BA63-4ACC-8028-948F4F5876EE}"
 EndProject
@@ -15,6 +17,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{944932C1-3F11-4141-8445-D1E7B18FDD63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{944932C1-3F11-4141-8445-D1E7B18FDD63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{944932C1-3F11-4141-8445-D1E7B18FDD63}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{944932C1-3F11-4141-8445-D1E7B18FDD63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{944932C1-3F11-4141-8445-D1E7B18FDD63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{944932C1-3F11-4141-8445-D1E7B18FDD63}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{424455A6-3A68-4EB2-A1BE-38F7205FF82D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{424455A6-3A68-4EB2-A1BE-38F7205FF82D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{424455A6-3A68-4EB2-A1BE-38F7205FF82D}.Release|Any CPU.ActiveCfg = Release|Any CPU
