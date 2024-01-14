@@ -66,7 +66,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var nextcloudUrl = builder.Configuration.GetSection("Nextcloud")?.GetValue<string>("Url") ?? throw new InvalidOperationException("Nextcloud URL is not configured");
+var nextcloudUrl = builder.Configuration.GetSection("Nextcloud")
+                                        .GetValue<string>("Url") ?? throw new InvalidOperationException("Nextcloud URL is not configured");
 
 builder.Services.AddHttpClient<NextcloudClient>(client =>
 {

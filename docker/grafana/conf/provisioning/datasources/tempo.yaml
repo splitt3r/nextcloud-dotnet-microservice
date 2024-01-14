@@ -12,5 +12,7 @@ datasources:
         datasourceUid: loki
         spanStartTimeShift: -1h
         spanEndTimeShift: 1h
-        filterByTraceID: true
-        filterBySpanID: true
+        filterByTraceID: false
+        filterBySpanID: false
+        customQuery: true
+        query: '{exporter="OTLP"} | json | traceid="$${__span.traceId}" | spanid="$${__span.spanId}"'

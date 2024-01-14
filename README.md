@@ -3,14 +3,10 @@
 ## General dev setup
 
 - Run bash e.g. WSL not PowerShell! Some strange quote problems and execute the following steps
-
 - `docker exec -it --user www-data nextcloud php occ config:system:set loglevel --value=0`
-
 - `docker exec -it --user www-data nextcloud php occ app:install app_api`
-
 - Now you need to create the manual_install daemon via UI (e. g. http://localhost:8080/settings/admin/app_api)
-
-- Set the share secret in the `docker-compose.yml` file via `Nextcloud__Secret` env var and use the same for the next cmd
+- Set the shared secret in the `docker-compose.yml` file via `Nextcloud__Secret` env var and use the same for the next cmd
 
 ### Register the app via local daemon
 

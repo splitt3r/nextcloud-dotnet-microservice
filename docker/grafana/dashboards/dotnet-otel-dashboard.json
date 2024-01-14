@@ -36,6 +36,198 @@
         "x": 0,
         "y": 0
       },
+      "id": 48,
+      "panels": [],
+      "title": "Application",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "loki"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 50,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "editorMode": "builder",
+          "expr": "{job=\"$job\"} |= `` | json",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "tempo",
+        "uid": "tempo"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 49,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "filters": [
+            {
+              "id": "bd7d72ff",
+              "operator": "=",
+              "scope": "span"
+            },
+            {
+              "id": "service-name",
+              "operator": "=",
+              "scope": "resource",
+              "tag": "service.name",
+              "value": [
+                "$job"
+              ],
+              "valueType": "string"
+            }
+          ],
+          "limit": 20,
+          "queryType": "traceqlSearch",
+          "refId": "A",
+          "tableType": "traces"
+        }
+      ],
+      "title": "Traces",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
       "id": 15,
       "panels": [],
       "title": "Process",
@@ -133,7 +325,7 @@
         "h": 9,
         "w": 11,
         "x": 0,
-        "y": 1
+        "y": 10
       },
       "id": 19,
       "options": {
@@ -245,7 +437,7 @@
         "h": 9,
         "w": 10,
         "x": 11,
-        "y": 1
+        "y": 10
       },
       "id": 16,
       "options": {
@@ -323,7 +515,7 @@
         "h": 9,
         "w": 3,
         "x": 21,
-        "y": 1
+        "y": 10
       },
       "id": 12,
       "options": {
@@ -364,7 +556,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 19
       },
       "id": 2,
       "panels": [],
@@ -440,7 +632,7 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 11
+        "y": 20
       },
       "id": 6,
       "options": {
@@ -640,7 +832,7 @@
         "h": 9,
         "w": 8,
         "x": 8,
-        "y": 11
+        "y": 20
       },
       "id": 8,
       "options": {
@@ -820,7 +1012,7 @@
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 11
+        "y": 20
       },
       "id": 9,
       "options": {
@@ -982,7 +1174,7 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 20
+        "y": 29
       },
       "id": 4,
       "options": {
@@ -1095,7 +1287,7 @@
         "h": 9,
         "w": 8,
         "x": 8,
-        "y": 20
+        "y": 29
       },
       "id": 13,
       "options": {
@@ -1157,7 +1349,7 @@
         "h": 9,
         "w": 4,
         "x": 16,
-        "y": 20
+        "y": 29
       },
       "id": 11,
       "options": {
@@ -1223,7 +1415,7 @@
         "h": 9,
         "w": 4,
         "x": 20,
-        "y": 20
+        "y": 29
       },
       "id": 17,
       "options": {
@@ -1264,7 +1456,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 38
       },
       "id": 33,
       "panels": [],
@@ -1320,8 +1512,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1333,7 +1524,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 30
+        "y": 39
       },
       "id": 40,
       "options": {
@@ -1488,8 +1679,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1547,7 +1737,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 30
+        "y": 39
       },
       "id": 47,
       "options": {
@@ -1612,7 +1802,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 48
       },
       "id": 21,
       "panels": [],
@@ -1682,7 +1872,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 49
       },
       "id": 23,
       "options": {
@@ -1910,7 +2100,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 49
       },
       "id": 25,
       "options": {
@@ -2002,6 +2192,10 @@
           "text": "NextcloudMicroservice.Server",
           "value": "NextcloudMicroservice.Server"
         },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
         "definition": "label_values(process_runtime_dotnet_gc_collections_count_total,job)",
         "hide": 0,
         "includeAll": false,
@@ -2022,8 +2216,12 @@
       {
         "current": {
           "selected": false,
-          "text": "4060d8d4-3de6-4062-ae3e-74738b6bdbff",
-          "value": "4060d8d4-3de6-4062-ae3e-74738b6bdbff"
+          "text": "4ebdcdf6-a8e1-4cb7-bd5b-5430402e81da",
+          "value": "4ebdcdf6-a8e1-4cb7-bd5b-5430402e81da"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
         },
         "definition": "label_values(process_runtime_dotnet_gc_collections_count_total{job=~\"$job\"},instance)",
         "hide": 0,
@@ -2048,6 +2246,10 @@
           "text": "All",
           "value": "$__all"
         },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
         "definition": "label_values(http_client_request_duration_seconds_count{job=\"$job\", instance=\"$instance\"},server_address)",
         "hide": 2,
         "includeAll": true,
@@ -2069,13 +2271,13 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "ASP.NET OTEL Metrics",
   "uid": "KdDACDp4z",
-  "version": 1,
+  "version": 4,
   "weekStart": ""
 }
