@@ -1,0 +1,62 @@
+logging {
+  level  = "debug"
+  format = "logfmt"
+}
+
+otelcol.receiver.otlp "default" {
+	// https://grafana.com/docs/agent/latest/flow/reference/components/otelcol.receiver.otlp/
+
+	// configures the default grpc endpoint "0.0.0.0:4317"
+	grpc { }
+	// configures the default http/protobuf endpoint "0.0.0.0:4318"
+	http { }
+
+	output {
+		metrics = [otelcol.processor.batch.grafana.input]
+		logs    = [otelcol.processor.batch.grafana.input]
+		traces  = [otelcol.processor.batch.grafana.input]
+	}
+}
+
+otelcol.processor.batch "grafana" {
+	// https://grafana.com/docs/agent/latest/flow/reference/components/otelcol.processor.batch/
+	output {
+		metrics = [otelcol.exporter.prometheus.grafana_prometheus.input]
+		logs    = [otelcol.exporter.loki.grafana_loki.input]
+		traces  = [otelcol.exporter.otlp.grafana_tempo.input]
+	}
+}
+
+otelcol.exporter.loki "grafana_loki" {
+	// https://grafana.com/docs/agent/latest/flow/reference/components/otelcol.exporter.loki/
+	forward_to = [loki.write.grafana_loki.receiver]
+}
+
+otelcol.exporter.prometheus "grafana_prometheus" {
+	// https://grafana.com/docs/agent/latest/flow/reference/components/otelcol.exporter.prometheus/
+	forward_to = [prometheus.remote_write.grafana_prometheus.receiver]
+}
+
+prometheus.remote_write "grafana_prometheus" {
+	// https://grafana.com/docs/agent/latest/flow/reference/components/prometheus.remote_write/
+	endpoint {
+		url = env("PROMEHTEUS_URL")
+	}
+}
+
+loki.write "grafana_loki" {
+	// https://grafana.com/docs/agent/latest/flow/reference/components/loki.write/
+	endpoint {
+		url = env("LOKI_URL")
+	}
+}
+
+otelcol.exporter.otlp "grafana_tempo" {
+	// https://grafana.com/docs/agent/latest/flow/reference/components/otelcol.exporter.otlp/
+	client {
+		endpoint = env("TEMPO_ENPOINT")
+		tls {
+			insecure = true
+		}
+	}
+}

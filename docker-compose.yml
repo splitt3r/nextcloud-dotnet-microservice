@@ -2,8 +2,14 @@ version: '3'
 
 services:
   nextcloud:
-    image: nextcloud
+    image: nextcloud:28
     container_name: nextcloud
+    restart: unless-stopped
+    volumes:
+      - nextcloud-html:/var/www/html
+      - nextcloud-apps:/var/www/html/custom_apps
+      - nextcloud-config:/var/www/html/config
+      - nextcloud-data:/var/www/html/data
     environment:
       SQLITE_DATABASE: nextcloud.db
       NEXTCLOUD_ADMIN_USER: admin
@@ -12,17 +18,133 @@ services:
     ports:
       - 8080:80
     networks:
-      - nextcloud
+      - nextcloud-network
+
+  agent:
+    image: grafana/agent:v0.39.0
+    container_name: agent
+    restart: unless-stopped
+    entrypoint:
+      - /bin/grafana-agent
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - /etc/agent-config/agent.river
+    volumes:
+      - ./docker/agent:/etc/agent-config
+    environment:
+      AGENT_MODE: flow
+      CONFIG_FILE_PATH: /etc/agent-config/agent.river
+      HOSTNAME: agent
+      PROMEHTEUS_URL: http://mimir:9090/api/v1/push
+      LOKI_URL: http://loki:3100/loki/api/v1/push
+      TEMPO_ENPOINT: tempo:4317
+    ports:
+      - 12345:12345
+    networks:
+      - nextcloud-network
+    depends_on:
+      - mimir
+      - loki
+      - tempo
+
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - ./docker/grafana/conf/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./docker/grafana/conf/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: true
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: true
+    ports:
+      - 3000:3000
+    networks:
+      - nextcloud-network
+
+  tempo:
+    image: grafana/tempo:2.1.0
+    container_name: tempo
+    user: root
+    restart: unless-stopped
+    volumes:
+      - ./docker/tempo/tempo.yaml:/config/tempo.yaml:ro
+      - tempo-data:/data
+    command:
+      - '-config.file=/config/tempo.yaml'
+      - '-config.expand-env=true'
+    networks:
+      - nextcloud-network
+
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: loki
+    user: root
+    restart: unless-stopped
+    volumes:
+      - ./docker/loki/loki.yaml:/config/loki.yaml:ro
+      - loki-data:/data
+    command:
+      - '-config.file=/config/loki.yaml'
+      - '-config.expand-env=true'
+    networks:
+      - nextcloud-network
+
+  mimir:
+    image: grafana/mimir:2.10.4
+    container_name: mimir
+    restart: unless-stopped
+    volumes:
+      - ./docker/mimir/mimir.yaml:/config/mimir.yaml:ro
+      - mimir-data:/data
+    ports:
+      - 9090:9090
+    command:
+      - '-config.file=/config/mimir.yaml'
+      - '-config.expand-env=true'
+    networks:
+      - nextcloud-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    entrypoint: [""]
+    volumes:
+      - minio-data:/data
+    environment:
+      - MINIO_ROOT_USER=monitoring
+      - MINIO_ROOT_PASSWORD=supersecret
+    command: ["sh", "-c", "mkdir -p /data/monitoring && minio server --quiet /data"]
+    networks:
+      - nextcloud-network
 
   dotnet-microservice:
     build: .
     container_name: dotnet-microservice
     environment:
-      ASPNETCORE_ENVIRONMENT: Production
+      Nextcloud__Url: http://nextcloud
+      Nextcloud__Secret: 12345
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://agent:4318
     ports:
       - 9080:8080
     networks:
-      - nextcloud
+      - nextcloud-network
+
+volumes:
+  nextcloud-html:
+  nextcloud-apps:
+  nextcloud-config:
+  nextcloud-data:
+  grafana-data:
+  loki-data:
+  tempo-data:
+  mimir-data:
+  minio-data:
 
 networks:
-  nextcloud:
+  nextcloud-network:

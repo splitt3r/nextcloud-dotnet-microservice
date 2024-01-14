@@ -1,18 +1,24 @@
 using System.Text;
 using System.Text.Json;
 
-namespace NextcloudMicroservice.Server.Services;
+namespace NextcloudMicroservice.Server.Clients;
 
-public class NextcloudClient : IDisposable
+public class NextcloudClient(HttpClient httpClient) : IDisposable
 {
-    private string _baseUrl;
-    private HttpClient _httpClient;
+    private HttpClient _httpClient = httpClient;
 
-    public NextcloudClient(string baseUrl, IList<KeyValuePair<string, string>> headers)
+    public void SetDefaultRequestHeaders(IHeaderDictionary headers)
     {
-        _baseUrl = baseUrl;
-        _httpClient = new HttpClient();
-        foreach (var header in headers)
+        // TODO: error handling with TryGetValue
+        var headerList = new List<KeyValuePair<string, string>>
+        {
+            new("OCS-APIRequest", "true"),
+            new("AA-VERSION", headers["AA-VERSION"].ToString()),
+            new("EX-APP-ID", headers["EX-APP-ID"].ToString()),
+            new("EX-APP-VERSION", headers["EX-APP-VERSION"].ToString()),
+            new("AUTHORIZATION-APP-API", headers["AUTHORIZATION-APP-API"].ToString())
+        };
+        foreach (var header in headerList)
         {
             _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
         }
@@ -40,7 +46,7 @@ public class NextcloudClient : IDisposable
 
     private async Task<string> Request(HttpMethod httpMathod, string path, object? content = null)
     {
-        HttpRequestMessage req = new(httpMathod, $"{_baseUrl}/{path}")
+        HttpRequestMessage req = new(httpMathod, $"{_httpClient.BaseAddress}/{path}")
         {
             Content = content != null ? new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json") : null
         };
