@@ -16,3 +16,13 @@ datasources:
         filterBySpanID: false
         customQuery: true
         query: '{exporter="OTLP"} | json | traceid="$${__span.traceId}" | spanid="$${__span.spanId}"'
+      tracesToMetrics:
+          datasourceUid: mimir
+          tags: [{ key: 'service.name', value: 'application' }, { key: 'org' }, { key: 'method' }, { key: 'uri' }, { key: 'outcome' }, { key: 'status' }, { key: 'exception' }]
+          queries:
+            - name: 'Throughput'
+              query: 'sum(rate(http_server_requests_seconds_count{$$__tags}[$$__rate_interval]))'
+            - name: 'Latency'
+              query: 'histogram_quantile(1.00, sum(rate(http_server_requests_seconds_bucket{$$__tags}[$$__rate_interval])) by (le))'
+          spanStartTimeShift: '-10m'
+          spanEndTimeShift: '10m'
