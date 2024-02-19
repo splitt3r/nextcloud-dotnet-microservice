@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0.101 AS build
 RUN apt-get update \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
